@@ -185,3 +185,9 @@ p {
 .videoTitle {
   color: black;
 }
+
+.articleContainer {
+  background-color: var(--fgColorLighter);
+  color: white;
+  border-radius: 25px;
+}
