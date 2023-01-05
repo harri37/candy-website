@@ -1,9 +1,10 @@
 import React from "react";
+import Title from "../components/Title";
 
 const Shop = () => {
   return (
     <>
-      <div id="collection-component-1672567339158"></div>
+      <Title title="Shop" />
     </>
   );
 };

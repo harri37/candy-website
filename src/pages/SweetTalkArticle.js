@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import * as data from "../data/sweetTalk.json";
+import { sweetTalkImages } from "../images/images";
+import Title from "../components/Title";
 
 const SweetTalkArticle = () => {
   const articles = data;
@@ -20,8 +22,13 @@ const SweetTalkArticle = () => {
   };
 
   const Image = ({ image }) => {
-    //return <img src={image} alt={image} className="sweetTalkImage" />;
-    return <p>IMAGE HERE</p>;
+    return (
+      <img
+        src={sweetTalkImages[title][image]}
+        alt={image}
+        className="sweetTalkImage"
+      />
+    );
   };
 
   const Footer = ({ footer }) => {
@@ -53,6 +60,7 @@ const SweetTalkArticle = () => {
 
   return (
     <>
+      <Title title="Sweet Talk" />
       <h1 className="sweetTalkTitle">{article.title}</h1>
       <p className="sweetTalkAuthor">{article.author}</p>
       <p className="sweetTalkDate">{formatDate(article.date)}</p>
