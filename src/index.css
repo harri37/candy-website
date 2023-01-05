@@ -70,7 +70,7 @@ main {
   margin: 0 auto;
   text-align: center;
   color: var(--textColor);
-  background-color: var(--fgColor);
+  background-color: var(--bgColor);
 }
 
 
@@ -80,13 +80,13 @@ main {
 div.sep {
 		min-height: 200px;
 		padding: 32px 0;
-
+    background: var(--fgColor);
 	}
 
 .zig-zag-top:before{
 		background: 
-					linear-gradient(-45deg, var(--bgColor) 16px, red 16px, blue 16px,  transparent 0), 
-					linear-gradient(45deg, var(--bgColor) 16px, transparent 0);
+					linear-gradient(-45deg, transparent 16px,  var(--fgColor) 0), 
+					linear-gradient(45deg, transparent 16px, var(--fgColor) 0);
         background-position: left top;
         background-repeat: repeat-x;
         background-size: 22px 32px;
@@ -120,8 +120,8 @@ div.sep {
 
 .zig-zag-bottom:after{
 		background: 
-					linear-gradient(-45deg, transparent 16px, var(--bgColor) 0), 
-					linear-gradient(45deg, transparent 16px, var(--bgColor)  0);
+					linear-gradient(-45deg, var(--fgColor) 16px, transparent 0), 
+					linear-gradient(45deg, var(--fgColor) 16px, transparent  0);
         background-repeat: repeat-x;
 		background-position: left bottom;
         background-size: 22px 32px;
@@ -149,8 +149,8 @@ p {
   font-size: 2em;
 }.top:after{
 		background: 
-					linear-gradient(-45deg, transparent 16px, var(--bgColor) 0), 
-					linear-gradient(45deg, transparent 16px, var(--bgColor)  0);
+					linear-gradient(-45deg, var(--fgColor) 16px, transparent 0), 
+					linear-gradient(45deg, var(--fgColor) 16px, transparent  0);
         background-repeat: repeat-x;
 		background-position: left bottom;
         background-size: 22px 32px;
@@ -190,4 +190,18 @@ p {
   background-color: var(--fgColorLighter);
   color: white;
   border-radius: 25px;
+  display: inline-block;
+  margin: 20px;
+}
+
+.articleContainer:hover {
+  color: var(--bgColor);
+}
+
+.sweettalk_thumb {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  margin: 0;
+  max-width: 400px;
+  height: auto;
 }

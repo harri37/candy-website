@@ -1,7 +1,8 @@
 import React from "react";
+import Title from "../components/Title";
 
 const Events = () => {
-  return <div>Events</div>;
+  return <Title title="Events" />;
 };
 
 export default Events;
