@@ -68,6 +68,8 @@ body {
 main {
   width: 100%;
   margin: 0 auto;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   color: var(--textColor);
   background-color: var(--bgColor);
@@ -138,11 +140,6 @@ div.sep {
 
 
 
-
-p {
-  text-align: center;
-}
-
 .auth{
   text-decoration: overline;
   color: #999;
@@ -203,5 +200,26 @@ p {
   border-top-right-radius: 25px;
   margin: 0;
   max-width: 400px;
+  height: auto;
+}
+
+.sweetTalkQuestion {
+  color: var(--fgColor)
+}
+
+.sweetTalkContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sweetTalkArticle {
+  width: 600px;
+  text-align: left;
+}
+
+.sweetTalkImage {
+  width: 600px;
   height: auto;
 }

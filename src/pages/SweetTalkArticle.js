@@ -59,30 +59,32 @@ const SweetTalkArticle = () => {
   };
 
   return (
-    <>
-      <Title title="Sweet Talk" />
-      <h1 className="sweetTalkTitle">{article.title}</h1>
-      <p className="sweetTalkAuthor">{article.author}</p>
-      <p className="sweetTalkDate">{formatDate(article.date)}</p>
-      <h2 className="sweetTalkHeader">{article.header}</h2>
-      {articleArray.map((item) => {
-        const type = item.charAt(0);
-        const content = item.slice(1);
+    <div className="sweetTalkContainer">
+      <div className="sweetTalkArticle">
+        <Title title="Sweet Talk" />
+        <h1 className="sweetTalkTitle">{article.title}</h1>
+        <p className="sweetTalkAuthor">{article.author}</p>
+        <p className="sweetTalkDate">{formatDate(article.date)}</p>
+        <h2 className="sweetTalkHeader">{article.header}</h2>
+        {articleArray.map((item) => {
+          const type = item.charAt(0);
+          const content = item.slice(1);
 
-        switch (type) {
-          case "q":
-            return <Question question={content} key={content} />;
-          case "p":
-            return <Answer answer={content} key={content} />;
-          case "i":
-            return <Image image={content} key={content} />;
-          case "f":
-            return <Footer footer={content} key={content} />;
-          default:
-            return null;
-        }
-      })}
-    </>
+          switch (type) {
+            case "q":
+              return <Question question={content} key={content} />;
+            case "p":
+              return <Answer answer={content} key={content} />;
+            case "i":
+              return <Image image={content} key={content} />;
+            case "f":
+              return <Footer footer={content} key={content} />;
+            default:
+              return null;
+          }
+        })}
+      </div>
+    </div>
   );
 };
 
