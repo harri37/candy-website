@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Title from "../components/Title";
 import * as data from "../data/sweetTalk.json";
 import { Link } from "react-router-dom";
