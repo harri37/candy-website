@@ -28,8 +28,8 @@ const LogIn = () => {
 
   return (
     <>
-      <Title title="Login" />
-      <div className="login">
+      <Title title="Log In" />
+      <div className="login-form">
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input type="email" id="email" ref={emailRef} required />
@@ -40,6 +40,9 @@ const LogIn = () => {
           </button>
         </form>
         {error && <p>{error}</p>}
+        <div className="signup">
+          Need an account? <Link to="/signup">Sign Up</Link>
+        </div>
         <div className="forgot-password">
           <Link to="/forgot-password">Forgot Password?</Link>
         </div>

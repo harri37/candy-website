@@ -225,3 +225,215 @@ div.sep {
   max-width: 600px;
   height: auto;
 }
+
+.shop-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.shop {
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+
+.product {
+  text-align: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 20px;
+  width: 20vw;
+  background-color: var(--fgColor);
+}
+
+.product:hover {
+  background-color: var(--fgColorLighter);
+}
+
+.product-image {
+  width: 20vw;
+  height: 20vw;
+  overflow: hidden
+}
+
+@media (max-width: 800px){
+  .product-image {
+    width: 40vw;
+    height: 40vw;
+  }
+
+  .product {
+    width: 40vw;
+  }
+}
+  
+
+
+.product img {
+  width: 100%;
+  height: 100%;
+}
+ 
+
+/*cart header at top left and close button top right*/
+.cart-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--fgColor);
+  color: white;
+
+}
+
+/* cart that appears when you click on the cart icon and is stuck to right of screen.*/
+.cart {
+  padding-left: 20px;
+  text-align: left;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+  max-width: 100%;
+  background-color: var(--fgColor);
+  color: white;
+
+}
+
+.cart .cart-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid var(--fgColorLighter);
+}
+
+.sweetTalkFooter {
+  font-style: italic;
+}
+
+/*Login and signup forms with underlines for inputs.
+Left aligned
+Two inputs per row */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-form input {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+}
+
+.login-form input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+  border: none;
+  border-bottom: 1px solid var(--fgColor);
+  background-color: transparent;
+  color: white;
+}
+
+.login-form input[type="text"]:focus, input[type="password"], input[type="email"], input[type="tel"]:focus {
+  outline: none;
+}
+
+.login-form input[type="submit"] {
+  background-color: var(--fgColor);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.login-form input[type="submit"]:hover {
+  background-color: var(--fgColorLighter);
+}
+
+.login-form input[type="submit"]:active {
+  background-color: var(--fgColorLight);
+}
+
+.login-form input[type="submit"]:focus {
+  outline: none;
+}
+
+.login-form input[type="submit"]:disabled {
+  background-color: var(--fgColorLight);
+  color: var(--fgColor);
+}
+
+.login-form input[type="submit"]:disabled:hover {
+  background-color: var(--fgColorLight);
+  color: var(--fgColor);
+}
+
+.login-form input[type="submit"]:disabled:active {
+  background-color: var(--fgColorLight);
+  color: var(--fgColor);
+}
+
+.login-form input[type="submit"]:disabled:focus {
+  outline: none;
+}
+
+.login-form input[type="submit"]:disabled:active {
+  background-color: var(--fgColorLight);
+  color: var(--fgColor);
+} 
+
+/*leave background transparent when auto completing forms*/
+.login-form input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px var(--bgColor) inset;
+  -webkit-text-fill-color: white;
+}
+
+button {
+  background-color: var(--fgColor);
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: var(--fgColorLighter);
+  cursor: pointer;
+}
+
+/*dashboard for displaying user information */
+.dashboard {
+  background-color: var(--fgColor);
+  padding: 30px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
