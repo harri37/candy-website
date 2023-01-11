@@ -35,7 +35,7 @@ const LogIn = () => {
           <input type="email" id="email" ref={emailRef} required />
           <label htmlFor="password">Password</label>
           <input type="password" id="password" ref={passwordRef} required />
-          <button disabled={loading} type="submit">
+          <button disabled={loading} className="form-button" type="submit">
             Login
           </button>
         </form>

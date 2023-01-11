@@ -28,16 +28,16 @@ const ForgotPassword = () => {
   return (
     <>
       <Title title="Password Reset" />
-      <div className="password-reset">
+      <div className="login-form">
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input type="email" id="email" ref={emailRef} required />
-          <button disabled={loading} type="submit">
-            Forgot Password
+          <button disabled={loading} className="form-button" type="submit">
+            Send Reset Email
           </button>
         </form>
-        {error && <p>{error}</p>}
-        {message && <p>{message}</p>}
+        {error && <p className="error-message">{error}</p>}
+        {message && <p className="success-message">{message}</p>}
         <Link to="/login">Log In</Link>
       </div>
     </>

@@ -1,23 +1,112 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../helper/AuthContext";
 import Title from "../components/Title";
 import { useNavigate, Link } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection } from "firebase/firestore";
 import { auth } from "../firebase";
 
 const SignUp = () => {
-  const [error, setError] = useState("");
+  const [fetching, setFetching] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
-  const phoneRef = useRef();
-  const addressRef = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const { signup } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("fetch loop");
+    const fetchUsers = async () => {
+      const userData = await getDocs(collection(db, "users"));
+      setUsers(userData.docs.map((doc) => doc.data()));
+      setFetching(false);
+    };
+
+    fetchUsers();
+  }, []);
+
+  const updateErrors = useCallback(
+    (error) => {
+      if (!errors.includes(error)) {
+        setErrors((errors) => [...errors, error]);
+      }
+    },
+    [errors]
+  );
+
+  const removeError = useCallback(
+    (error) => {
+      if (errors.includes(error)) {
+        setErrors((errors) => errors.filter((e) => e !== error));
+      }
+    },
+    [errors]
+  );
+
+  useEffect(() => {
+    if (
+      password !== confirmPassword &&
+      password.length > 5 &&
+      confirmPassword.length > 5
+    ) {
+      updateErrors("Passwords do not match");
+    } else {
+      removeError("Passwords do not match");
+    }
+  }, [password, confirmPassword, updateErrors, removeError]);
+
+  useEffect(() => {
+    if (password.length < 6 && password.length > 0) {
+      updateErrors("Password must be at least 6 characters");
+    } else {
+      removeError("Password must be at least 6 characters");
+    }
+  }, [password, updateErrors, removeError]);
+
+  useEffect(() => {
+    const re = /^04\d{8}$/;
+    if (!re.test(phone) && phone.length > 9) {
+      return updateErrors("Phone number must be valid AU number");
+    } else {
+      removeError("Phone number must be valid AU number");
+    }
+  }, [phone, updateErrors, removeError]);
+
+  useEffect(() => {
+    const re = /\S+@\S+\.\S+/;
+    if (!re.test(email) && email.length > 5) {
+      return updateErrors("Email must be valid");
+    } else {
+      removeError("Email must be valid");
+    }
+  }, [email, updateErrors, removeError]);
+
+  useEffect(() => {
+    users.forEach((user) => {
+      if (user.email === email) {
+        return updateErrors("Email already in use");
+      } else {
+        removeError("Email already in use");
+      }
+    });
+  }, [email, users, updateErrors, removeError]);
+
+  useEffect(() => {
+    users.forEach((user) => {
+      if (user.phone === phone) {
+        updateErrors("Phone number already in use");
+      } else {
+        removeError("Phone number already in use");
+      }
+    });
+  }, [phone, users, updateErrors, removeError]);
 
   const handleSubmit = async (e) => {
     /**
@@ -25,69 +114,109 @@ const SignUp = () => {
      * Creates new data in the "users" collection in Firestore.
      * On successful creation of the user account, this user will also be signed in to your application.
      */
+
     e.preventDefault();
-    console.log("emailRef", emailRef.current.value);
-    console.log("passwordRef", passwordRef.current.value);
-    if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-      return setError("Passwords do not match");
-    }
 
     try {
-      setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await signup(email, password);
       //get user id
       const user = auth.currentUser.multiFactor.user.uid;
       console.log("user", user);
 
       //add user to firestore
       await setDoc(doc(db, "users", user), {
-        firstName: firstNameRef.current.value,
-        lastName: lastNameRef.current.value,
-        email: emailRef.current.value,
-        phone: phoneRef.current.value,
-        address: addressRef.current.value,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        address: address,
       });
       navigate("/");
     } catch (e) {
       console.log(e);
-      setError("Failed to create an account");
+      //setError("Failed to create an account");
     }
     setLoading(false);
   };
 
-  return (
+  return fetching ? (
+    <p>Loading</p>
+  ) : (
     <>
       <Title title="Sign Up" />
       <div className="login-form">
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" ref={emailRef} required />
+          <input
+            type="email"
+            id="email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" ref={passwordRef} required />
+          <input
+            type="password"
+            id="password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
           <label htmlFor="password-confirm">Confirm Password</label>
           <input
             type="password"
             id="password-confirm"
-            ref={confirmPasswordRef}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
           <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" ref={firstNameRef} required />
+          <input
+            type="text"
+            id="first-name"
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
           <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" ref={lastNameRef} required />
+          <input
+            type="text"
+            id="last-name"
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
           <label htmlFor="phone">Phone</label>
-          <input type="tel" id="phone" ref={phoneRef} required />
+          <input
+            type="tel"
+            id="phone"
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
           <label htmlFor="address">Address</label>
-          <input type="text" id="address" ref={addressRef} required />
-          <button disabled={loading} type="submit">
+          <input
+            type="text"
+            id="address"
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+          <button
+            disabled={loading && errors.length === 0}
+            className="form-button"
+            type="submit"
+          >
             Sign Up
           </button>
         </form>
+
+        {errors.length > 0 && (
+          <div className="errors">
+            {errors.map((error) => (
+              <p className="error-message" key={error}>
+                {error}
+              </p>
+            ))}
+          </div>
+        )}
         <div className="login">
           Already have an account? <Link to="/login">Log In</Link>
         </div>
-        {error && <p>{error}</p>}
       </div>
     </>
   );
