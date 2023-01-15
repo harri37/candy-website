@@ -11,6 +11,10 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import LogIn from "./pages/LogIn";
 import ForgotPassword from "./pages/ForgotPassword";
+import Product from "./pages/Product";
+import Checkout from "./pages/Checkout";
+import Admin from "./pages/Admin";
+import AccessDenied from "./pages/AccessDenied";
 import { AuthProvider } from "./helper/AuthContext";
 import { CartProvider } from "./helper/CartContext";
 
@@ -36,9 +40,27 @@ const App = () => {
                   </PrivateRoute>
                 }
               ></Route>
+              <Route
+                path="/admin"
+                element={
+                  <PrivateRoute>
+                    <Admin />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="checkout"
+                element={
+                  <PrivateRoute>
+                    <Checkout />
+                  </PrivateRoute>
+                }
+              ></Route>
               <Route path="forgot-password" element={<ForgotPassword />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/products/:productId" element={<Product />} />
               <Route path="/events" element={<Events />} />
+              <Route path="/access-denied" element={<AccessDenied />} />
               <Route path="*" element={<h1>404</h1>} />
             </Routes>
           </main>

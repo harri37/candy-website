@@ -8,6 +8,7 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [shown, setShown] = useState(false);
 
   const addToCart = (product) => {
     // Check if product is already in cart
@@ -53,6 +54,8 @@ export const CartProvider = ({ children }) => {
     removeFromCart,
     clearCart,
     reduceQuantity,
+    shown,
+    setShown,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

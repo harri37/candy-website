@@ -3,14 +3,14 @@ import Title from "../components/Title";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useCart } from "../helper/CartContext";
 import { db } from "../firebase";
+import { Link } from "react-router-dom";
+import Cart from "../components/Cart";
 
 const Shop = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const [cartShown, setCartShown] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState({});
-  const { cart, addToCart, removeFromCart, clearCart, reduceQuantity } =
-    useCart();
+  const { addToCart, clearCart, shown, setShown } = useCart();
 
   const sizeOrder = {
     "ONE SIZE": 0,
@@ -43,46 +43,6 @@ const Shop = () => {
     getProducts();
   }, []);
 
-  const Cart = () => {
-    return (
-      <div className="cart">
-        <div className="cart-header">
-          <h1>Cart</h1>
-          <button className="close" onClick={() => setCartShown(false)}>
-            Close
-          </button>
-        </div>
-        {cart.map((product) => (
-          <div className="cart-item" key={product.name + product.size}>
-            <p>
-              {product.name} {product.size}
-            </p>
-            <p>
-              <button onClick={() => handleReduceQuantity(product)}>-</button>
-              {product.quantity}
-              <button onClick={() => handleAddToCart(product)}>+</button>
-            </p>
-            <p>${product.price}</p>
-            <button onClick={() => handleRemoveFromCart(product)}>
-              Remove
-            </button>
-          </div>
-        ))}
-        {cart.length === 0 ? (
-          <p>Nothing Here...</p>
-        ) : (
-          <p className="total">
-            Total: $
-            {cart.reduce(
-              (acc, product) => acc + product.price * product.quantity,
-              0
-            )}
-          </p>
-        )}
-      </div>
-    );
-  };
-
   const Product = ({ product }) => {
     const sizes = Object.keys(product.sizes).sort(
       (a, b) => sizeOrder[a] - sizeOrder[b]
@@ -111,39 +71,33 @@ const Shop = () => {
     };
 
     return (
-      <div className="product" key={product.name}>
-        <h3>{product.name}</h3>
-        <div className="product-image">
-          <img src={product.image} alt={product.name} />
+      <Link to={`/products/${product.id}`}>
+        <div className="product" key={product.name}>
+          <h3>{product.name}</h3>
+          <div className="product-image">
+            <img src={product.images[0]} alt={product.name} />
+          </div>
+          <p>${product.price}</p>
+          <SizeSelect shown={hasSizes} />
+          <button
+            onClick={() => {
+              handleAddToCart({
+                ...product,
+                id: product.id + selectedSizes[product.name],
+                size: selectedSizes[product.name],
+              });
+              setShown(true);
+            }}
+          >
+            Add to Cart
+          </button>
         </div>
-        <p>${product.price}</p>
-        <SizeSelect shown={hasSizes} />
-        <button
-          onClick={() => {
-            handleAddToCart({
-              ...product,
-              id: product.id + selectedSizes[product.name],
-              size: selectedSizes[product.name],
-            });
-            setCartShown(true);
-          }}
-        >
-          Add to Cart
-        </button>
-      </div>
+      </Link>
     );
-  };
-
-  const handleReduceQuantity = (product) => {
-    reduceQuantity(product);
   };
 
   const handleAddToCart = (product, size) => {
     addToCart({ ...product, quantity: 1 });
-  };
-
-  const handleRemoveFromCart = (product, size) => {
-    removeFromCart(product);
   };
 
   const handleClearCart = () => {
@@ -155,9 +109,9 @@ const Shop = () => {
   ) : (
     <>
       <Title title="Shop" />
-      <button onClick={() => setCartShown(!cartShown)}>View Cart</button>
+      <button onClick={() => setShown(!shown)}>View Cart</button>
       <button onClick={handleClearCart}>Clear Cart</button>
-      {cartShown && <Cart />}
+      <Cart />
       <div className="shop-container">
         <div className="shop">
           {products.map((product) => (
