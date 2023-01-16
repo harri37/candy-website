@@ -11,7 +11,6 @@ import {
 } from "firebase/storage";
 
 const Admin = () => {
-  const adminEmail = "harrisonwills37@gmail.com";
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
@@ -20,7 +19,10 @@ const Admin = () => {
 
   useEffect(() => {
     //redirect to login if not logged in
-    if (currentUser && currentUser.email !== adminEmail) {
+    if (
+      currentUser &&
+      currentUser.email !== process.env.REACT_APP_ADMIN_EMAIL
+    ) {
       navigate("/access-denied");
     }
   }, [currentUser, navigate]);
