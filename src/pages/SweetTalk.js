@@ -33,15 +33,19 @@ const SweetTalk = () => {
 
     return (
       <Link to={`/sweetTalk/${title}`}>
-        <div className="articleContainer">
-          <img
-            src={sweetTalkThumbnails[title]}
-            alt={title}
-            className="sweettalk_thumb"
-          />
-          <h3 className="articleTitle">{title}</h3>
-          <p className="articleAuthor">{author}</p>
-          <p className="articleDate">{formatDate(date)}</p>
+        <div className="card-link">
+          <div className="card-link-image">
+            <img
+              src={sweetTalkThumbnails[title]}
+              alt={title}
+              className="sweettalk_thumb"
+            />
+          </div>
+          <div className="card-link-text">
+            <h3>{title}</h3>
+            <p>{author}</p>
+            <p>{formatDate(date)}</p>
+          </div>
         </div>
       </Link>
     );

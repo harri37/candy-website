@@ -143,9 +143,9 @@ const SignUp = () => {
   return fetching ? (
     <p>Loading</p>
   ) : (
-    <>
+    <div className="content-area">
       <Title title="Sign Up" />
-      <div className="login-form">
+      <div className="min-form">
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input
@@ -204,21 +204,16 @@ const SignUp = () => {
             Sign Up
           </button>
         </form>
-
         {errors.length > 0 && (
           <div className="errors">
             {errors.map((error) => (
-              <p className="error-message" key={error}>
-                {error}
-              </p>
+              <p key={error}>{error}</p>
             ))}
           </div>
         )}
-        <div className="login">
-          Already have an account? <Link to="/login">Log In</Link>
-        </div>
+        Already have an account? <Link to="/login">Log In</Link>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -37,6 +37,14 @@ import whobokkuSprayCans from "./whobokku/whobokkuSprayCans.jpeg";
 import whobokkuSprayPainting from "./whobokku/whobokkuSprayPainting.jpeg";
 import whobokkuPaintings from "./whobokku/whobokkuPaintings.jpeg";
 
+import websiteLogo from "./logowebsite.png";
+import bannerImage from "./banner.png";
+import websiteWatermark from "./website watermark.png";
+
+export const logo = websiteLogo;
+export const banner = bannerImage;
+export const watermark = websiteWatermark;
+
 export const sweetTalkThumbnails = {
   "Elena Adeniyi": elena_thumb,
   "Spencer Lees": spencer_thumb,

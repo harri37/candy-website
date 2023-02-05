@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useCart } from "../helper/CartContext";
 
 const Cart = () => {
@@ -37,16 +38,14 @@ const Cart = () => {
       <div className="cart">
         <div className="cart-header">
           <h1>Cart</h1>
-          <button className="close" onClick={() => handleHideCart()}>
-            Close
-          </button>
+          <button onClick={() => handleHideCart()}>Close</button>
         </div>
         {cart.map((product) => (
           <div className="cart-item" key={product.name + product.size}>
             <p>
               {product.name} {product.size}
             </p>
-            <p>
+            <p className="cart-quantity">
               <button onClick={() => handleReduceQuantity(product)}>-</button>
               {product.quantity}
               <button onClick={() => handleAddToCart(product)}>+</button>
@@ -62,9 +61,7 @@ const Cart = () => {
           <p>Nothing Here...</p>
         ) : (
           <>
-            <button className="clear" onClick={() => handleClearCart()}>
-              Clear Cart
-            </button>
+            <button onClick={() => handleClearCart()}>Clear Cart</button>
             <p className="total">
               Total: $
               {cart.reduce(
@@ -72,6 +69,11 @@ const Cart = () => {
                 0
               )}
             </p>
+            <div className="checkout-link">
+              <Link to="/checkout" className="checkout-link">
+                <button className="checkout">Checkout</button>
+              </Link>
+            </div>
           </>
         )}
       </div>

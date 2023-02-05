@@ -1,8 +1,11 @@
 :root {
   --bgColor: #ffe3e4;
-  --fgColor: #d30707;
-  --fgColorLighter: #7a020d;
-  --textColor: #7a020d;
+  --navTextColor: #d30707;
+  --paragraphText: #7a020d;
+  --palePink: #fbe6e7;
+  --salmonColor: #ea3b3b;
+  --lighterPink: #fdbabd;
+  --content-width: 500px;
 }
 
 body {
@@ -19,43 +22,15 @@ code {
     monospace;
 }
 
-header {
-  display: flex;
-  flex: 0 0 100%;
-  background-color: red;
-  flex-direction: row;
-  height: 40px;
-}
-
-.headerLinks {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: blue;
-  flex: 1;
-}
-
 a {
-  color: var(--fgColor);
+  color: var(--navTextColor);
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--fgColorLighter);
+  color: var(--paragraphText);
 }
 
-.headerLinks Link {
-	flex: 1;
-}
-
-.headerLinks a {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.headerTitle{
-  flex: 1;
-}
 
 body {
   background-color: var(--bgColor);
@@ -63,104 +38,15 @@ body {
   height: 100%;
 }
 
-
-
 main {
   width: 100%;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: var(--textColor);
+  color: var(--paragraphText);
   background-color: var(--bgColor);
 }
-
-
-
-
-
-div.sep {
-		min-height: 200px;
-		padding: 32px 0;
-    background: var(--fgColor);
-	}
-
-.zig-zag-top:before{
-		background: 
-					linear-gradient(-45deg, transparent 16px,  var(--fgColor) 0), 
-					linear-gradient(45deg, transparent 16px, var(--fgColor) 0);
-        background-position: left top;
-        background-repeat: repeat-x;
-        background-size: 22px 32px;
-        content: " ";
-        display: block;
-
-        height: 32px;
-		width: 100%;
-
-		position: relative;
-		bottom: 64px;
-		left:0;
-	}
-
-
-.zig-zag-bottom{
-		margin: 32px 0;
-		margin-top: 0;
-		background: var(--bgColor);
-	}
-
-.zig-zag-top{
-		margin: 32px 0;
-		margin-bottom: 0;
-		background: var(--bgColor);
-	}
-
-.zig-zag-bottom, .zig-zag-top{
-			  padding: 32px 0;
-	}
-
-.zig-zag-bottom:after{
-		background: 
-					linear-gradient(-45deg, var(--fgColor) 16px, transparent 0), 
-					linear-gradient(45deg, var(--fgColor) 16px, transparent  0);
-        background-repeat: repeat-x;
-		background-position: left bottom;
-        background-size: 22px 32px;
-        content: "";
-        display: block;
-
-		width: 100%;
-		height: 32px;
-
- 	    position: relative;
-		top:64px;
-		left:0px;
-	}
-
-
-
-.auth{
-  text-decoration: overline;
-  color: #999;
-  font-size: 2em;
-}.top:after{
-		background: 
-					linear-gradient(-45deg, var(--fgColor) 16px, transparent 0), 
-					linear-gradient(45deg, var(--fgColor) 16px, transparent  0);
-        background-repeat: repeat-x;
-		background-position: left bottom;
-        background-size: 22px 32px;
-        content: "";
-        display: block;
-
-		width: 100%;
-		height: 32px;
-
- 	    position: relative;
-		top:64px;
-		left:0px;
-	}
 
 .videos {
   display: flex;
@@ -180,31 +66,13 @@ div.sep {
 
 
 .videoTitle {
-  color: black;
-}
-
-.articleContainer {
-  background-color: var(--fgColorLighter);
-  color: var(--textColor);
-  border-radius: 25px;
-  display: inline-block;
-  margin: 20px;
-}
-
-.articleContainer:hover {
-  color: var(--bgColor);
+  color: var(--paragraphText);
 }
 
 .sweettalk_thumb {
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
   margin: 0;
-  max-width: 400px;
+  max-width: var(--content-width);
   height: auto;
-}
-
-.sweetTalkQuestion {
-  color: var(--fgColor)
 }
 
 .sweetTalkContainer {
@@ -216,7 +84,7 @@ div.sep {
 
 .sweetTalkArticle {
   width: 90%;
-  max-width: 600px;
+  max-width: var(--content-width);
   text-align: left;
 }
 
@@ -243,10 +111,45 @@ div.sep {
   flex-wrap: wrap;
 }
 
+.card-link {
+  background-color: var(--lighterPink);
+  color: var(--navTextColor);
+  display: inline-block;
+  margin: 20px;
+  text-align: left;
+  line-height: 0;
+  width: var(--content-width);
+}
+
+.card-link:hover {
+  color: var(--paragraphText);
+}
+
+.card-link-text {
+  padding-left: 10px;
+}
+
+.card-link-image {
+  width: inherit;
+  height: auto;
+  opacity: 1;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.card-link-image:hover {
+  opacity: 0.5;
+}
+
+.card-link-image img {
+  width: 100%;
+  height: 100%;
+}
 
 
 .product {
-  text-align: center;
+  text-align: left;
+  line-height: 0;
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 10px;
@@ -259,29 +162,6 @@ div.sep {
 }
 
 
-.product-image {
-  width: 20vw;
-  height: 20vw;
-  overflow: hidden
-}
-
-@media (max-width: 800px){
-  .product-image {
-    width: 40vw;
-    height: 40vw;
-  }
-
-  .product {
-    width: 40vw;
-  }
-}
-  
-
-
-.product img {
-  width: 100%;
-  height: 100%;
-}
  
 
 /*cart header at top left and close button top right*/
@@ -291,24 +171,45 @@ div.sep {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: var(--fgColor);
-  color: var(--textColor);
-
 }
 
 /* cart that appears when you click on the cart icon and is stuck to right of screen.*/
 .cart {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
   padding-left: 20px;
   text-align: left;
   position: fixed;
   right: 0;
   top: 0;
   bottom: 0;
-  width: 400px;
+  width: var(--content-width);
   max-width: 100%;
-  background-color: var(--fgColor);
-  color: var(--textColor);
+  border-left: var(--navTextColor) 1px solid;
+  background-color: var(--salmonColor);
+  color: var(--paragraphText);
+}
 
+.cart button {
+  background-color: var(--lighterPink);
+  color: var(--paragraphText);
+  border: none;
+  padding: 5px;
+  margin: 5px;
+}
+
+.cart button:hover {
+  background-color: var(--lighterPink);
+  color: var(--salmonColor);
+}
+
+.cart-quantity button {
+  background-color: var(--navTextColor);
+  color: var(--paragraphText);
+  border: none;
+  padding: 5px;
+  margin: 5px;
 }
 
 .cart .cart-item {
@@ -317,7 +218,19 @@ div.sep {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid var(--fgColorLighter);
+  border-bottom: 1px solid var(--navTextColor);
+}
+
+div.checkout-link {
+  align-self: flex-end;
+}
+
+.checkout-link button {
+  background-color: var(--lighterPink);
+  color: var(--paragraphText);
+  border: none;
+  padding: 5px;
+  margin: 5px;
 }
 
 .sweetTalkFooter {
@@ -325,136 +238,118 @@ div.sep {
 }
 
 /*Login and signup forms with underlines for inputs.
-Left aligned
-Two inputs per row */
-.login-form {
+Left aligned*/
+.min-form {
+  text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: left;
-  width: 90%;
-  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.login-form input {
+.min-form input {
   width: 100%;
-  max-width: 400px;
+  max-width: var(--content-width);
   margin-bottom: 10px;
 }
 
-.form-button {
+.min-form button {
   width: 100%;
   margin-bottom: 20px;
 }
 
-.login-form input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+.min-form input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="number"] {
   border: none;
-  border-bottom: 1px solid var(--fgColor);
+  border-bottom: 1px solid var(--navTextColor);
   background-color: transparent;
-  color: var(--textColor);
+  color: var(--paragraphText);
 }
 
-.login-form input[type="text"]:focus, input[type="password"], input[type="email"], input[type="tel"]:focus {
+.min-form input[type="text"]:focus, input[type="password"], input[type="email"], input[type="tel"], input[type="number"]:focus {
   outline: none;
 }
 
-.login-form input[type="submit"] {
-  background-color: var(--fgColor);
-  color: var(--textColor);
+.min-form input[type="submit"] {
+  background-color: var(--navTextColor);
+  color: var(--paragraphText);
   border: none;
   border-radius: 20px;
   padding: 10px;
   margin-top: 10px;
 }
 
-.login-form input[type="submit"]:hover {
-  background-color: var(--fgColorLighter);
+.min-form textarea {
+  border: 1px solid var(--navTextColor);
+  background-color: transparent;
+  color: var(--paragraphText);
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100px;
+  margin-bottom: 10px;
 }
 
-.login-form input[type="submit"]:active {
-  background-color: var(--fgColorLight);
+.min-form input[type="submit"]:hover {
+  background-color: var(--paragraphText);
 }
 
-.login-form input[type="submit"]:focus {
+.min-form input[type="submit"]:active {
+  background-color: var(--paragraphText );
+}
+
+.min-form input[type="submit"]:focus {
   outline: none;
 }
 
-.login-form input[type="submit"]:disabled {
-  background-color: var(--fgColorLight);
-  color: var(--fgColor);
+.min-form input[type="submit"]:disabled {
+  background-color: var(--palePink);
+  color: var(--paragraphText);
 }
 
-.login-form input[type="submit"]:disabled:hover {
-  background-color: var(--fgColorLight);
-  color: var(--fgColor);
-}
-
-.login-form input[type="submit"]:disabled:active {
-  background-color: var(--fgColorLight);
-  color: var(--fgColor);
-}
-
-.login-form input[type="submit"]:disabled:focus {
+.min-form input[type="submit"]:disabled:focus {
   outline: none;
 }
 
-.login-form input[type="submit"]:disabled:active {
-  background-color: var(--fgColorLight);
-  color: var(--fgColor);
-} 
 
 /*leave background transparent when auto completing forms*/
-.login-form input:-webkit-autofill {
+.min-form input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px var(--bgColor) inset;
-  -webkit-text-fill-color: var(--textColor);
+  -webkit-text-fill-color: var(--paragraphText);
 }
 
 button {
-  background-color: var(--fgColor);
-  color: var(--textColor);
+  background-color: var(--navTextColor);
+  color: var(--paragraphText);
   border: none;
   padding: 10px;
   margin-top: 10px;
 }
 
 button:hover {
-  background-color: var(--fgColorLighter);
+  background-color: var(--salmonColor);
   cursor: pointer;
 }
 
 /*dashboard for displaying user information */
 .dashboard {
-  background-color: var(--fgColor);
-  padding: 30px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
+  border: var(--navTextColor) 1px solid;
   width: 100%;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 10px;
 }
 
 /*container for sign up errors*/
 .errors {
+  line-height: 0;
+  color: var(--navTextColor);
   text-align: left;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  max-width: 400px;
-}
-
-
-/*light red bubble around error messages*/
-.error-message {
-  background-color: var(--fgColorLighter);
-  color: var(--textColor);
-  padding: 10px;
+  max-width: var(--content-width);
+  border: 1px solid var(--navTextColor);
   margin-bottom: 10px;
+  padding: 10px;
 }
+
 
 /*on theme dropdown with slightly larger text and no focus borders*/
 select {
@@ -476,60 +371,30 @@ select:focus {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;  
-  height: 100%;
+  width: 100%; 
 }
 
 /*fix image size within fixed size without stretching images*/
 .product-image-carousel-selected {
-  background-color: blue;
-  width: 20vw;
-  height: 20vw;
+  width: var(--content-width);
+  height: auto;
+  max-height: var(--content-width);
+  object-fit: contain;
 }
 .product-image-carousel-selected img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  max-height: var(--content-width);
+  resize: contain;
+  object-fit: fill;
 }
 
-/*create product form*/
-.admin-create-product {
+.product-image-select {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  text-align: left;
-  width: 90%;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.admin-create-product input {
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 10px;
-}
-
-.admin-create-product input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="number"] {
-  border: none;
-  border-bottom: 1px solid var(--fgColor);
-  background-color: transparent;
-  color: var(--textColor);
-}
-
-.admin-create-product input[type="text"]:focus, input[type="password"], input[type="email"], input[type="tel"], input[type="number"]:focus {
-  outline: none;
-}
-
-textarea {
-  border: 1px solid var(--fgColor);
-  background-color: transparent;
-  color: var(--textColor);
-  height: 80px;
-  width: 100%;
-  resize: none;
-}
 
 
 textarea:focus {
@@ -542,7 +407,7 @@ textarea:focus {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 400px;
+  max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
   border-bottom: 1px solid var(--fgColor);
@@ -555,7 +420,7 @@ textarea:focus {
 
 .size-select-checkbox label {
   width: 100%;
-  max-width: 400px;
+  max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
 }
@@ -585,7 +450,7 @@ button[type="submit"] {
 .product-images img{
   width: 100%;
   height: auto;
-  max-width: 400px;
+  max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
 
@@ -602,22 +467,10 @@ form input {
   align-items: center;
   text-align: left;
   width: 90%;
-  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.existing-product {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  border-bottom: 1px solid var(--fgColor);
-}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -629,4 +482,285 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.header-banner {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-banner img {
+  width: 100%;
+  height: auto;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-links .current a {
+  color: var(--navTextColor);
+  background-color: var(--palePink);
+}
+
+
+
+header {
+  margin-top: 20px;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: var(--navTextColor);
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: var(--palePink);
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--palePink);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: var(--lighterPink);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.home-logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.home-logo img {
+  width: 100%;
+  height: auto;
+  max-width: 200px;
+}
+
+
+
+/*block of tabs for admin page*/
+.admin-tabs {
+  text-align: left;
+  margin: 0;
+  margin-left: 20px;
+  padding: 20px;
+  border: var(--fgColor) 1px solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.admin-tabs p {
+  margin: 0;
+  padding: 0;
+} 
+
+.admin-tabs p:hover {
+  cursor: pointer;
+}
+
+
+
+.existing-products table {
+  border-collapse: collapse;
+  width: 100%;
+ 
+}
+
+.existing-products tr {
+  border: 1px solid var(--navTextColor);
+}
+
+
+.existing-products th {
+  border-bottom: 3px solid var(--navTextColor);
+  padding: 10px;
+}
+
+.existing-products td {
+  padding: 10px;
+}
+
+.checkout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  max-width: var(--content-width);
+  gap: 10px;
+}
+
+.checkout-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.checkout-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: 1px solid var(--navTextColor);
+}
+
+#price {
+  display: flex;
+  flex: 1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.row {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.order {
+  border: var(--fgColor);
+  border-style: solid;
+  border-width: 1px;
+  text-align: left;
+  width: 100%;
+  max-width: var(--content-width);
+  margin-bottom: 10px;
+  padding: 10px; 
+}
+
+.content-area button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-style: solid;
+  border-width: 1px;
+  color: var(--bgColor);
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+
+.order-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: 1px solid var(--navTextColor);
+}
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 90%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
+
+form label {
+  font-size: 1.4em;
+  font-weight: bold; 
+}
+
+.label-smaller {
+  font-size: 1.2em; 
+}
+
+.home-content {
+  width: 90%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.2em;
+  margin-bottom: 50px;
 }

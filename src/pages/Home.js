@@ -1,41 +1,49 @@
 import React from "react";
+import { logo, watermark } from "../images/images";
 
 const Home = () => {
   return (
-    <>
-      <div className="zig-zag-bottom">
-        <h1>Candy</h1>
-
-        <p>
-          Candy
-          <br />
-          <br />a multimedia company focusing on the creation of visionary video
-          content.
-          <br />
-          <br />
-          from music videos and short films to eventually live events (coming
-          soon....), here at Candy we plan to create a massice community and
-          platform for like minded creatives all across Australia. We have big
-          plans to inspire a new wave of storytellers, whether it be through
-          music videos, short films or interviews.
-          <br />
-          <br />
-          at candy we are not videographers, we are storytellers. based out of
-          brisbane, australia.
-          <br />
-          <br />
-          join the movement
-        </p>
+    <div className="home-content">
+      <div className="home-logo">
+        <img src={logo} alt="logo" />
       </div>
 
-      <div className="sep">
-        <h1>SCROLLING TEXT HERE</h1>
+      <h1>Why Candy?</h1>
+
+      <div className="home-heading">
+        <p>Live life like a kid in candy store and you can't go wrong.</p>
       </div>
 
-      <div className="zig-zag-top">
-        <h1>FOOTER HERE</h1>
+      <h2>Welcome.</h2>
+
+      <p>
+        Candy is a community based creative brand and media platform with an
+        emphasis on narrative.
+        <br />
+        <br />
+        We are all born storytellers, and at Candy we believe there isn't a
+        stronger connection between people than storytelling.
+        <br />
+        <br />
+        Through the clothing, videos, events and everything else created by
+        Candy, we aim to foster a community of individuals who strive to be
+        unique, who search for new experiences and memories, and who although
+        may grow old, refuse to grow up.
+        <br />
+        <br />
+        Candy isn't just a brand, it isn't about the clothes you wear, or the
+        way you walk or talk, Candy is an attitude, it's a way of life. Best
+        described as being a kid in a candy store.
+      </p>
+      <div className="home-logo">
+        <img src={watermark} alt="watermark" />
       </div>
-    </>
+      <h3>
+        Brisbane,
+        <br />
+        Australia
+      </h3>
+    </div>
   );
 };
 

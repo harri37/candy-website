@@ -29,16 +29,18 @@ const LogIn = () => {
   return (
     <>
       <Title title="Log In" />
-      <div className="login-form">
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" ref={emailRef} required />
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" ref={passwordRef} required />
-          <button disabled={loading} className="form-button" type="submit">
-            Login
-          </button>
-        </form>
+      <div className="content-area">
+        <div className="min-form">
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" ref={emailRef} required />
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" ref={passwordRef} required />
+            <button disabled={loading} className="form-button" type="submit">
+              Login
+            </button>
+          </form>
+        </div>
         {error && <p>{error}</p>}
         <div className="signup">
           Need an account? <Link to="/signup">Sign Up</Link>

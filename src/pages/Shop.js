@@ -4,7 +4,6 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { useCart } from "../helper/CartContext";
 import { db } from "../firebase";
 import { Link } from "react-router-dom";
-import Cart from "../components/Cart";
 
 const Shop = () => {
   const [loading, setLoading] = useState(true);
@@ -20,8 +19,8 @@ const Shop = () => {
     L: 4,
     XL: 5,
     XXL: 6,
-    XXXL: 7,
-    XXXXL: 8,
+    "3XL": 7,
+    "4XL": 8,
   };
 
   useEffect(() => {
@@ -37,7 +36,11 @@ const Shop = () => {
       console.log(initialSizes);
       setSelectedSizes(initialSizes);
 
-      setProducts(querySnapshot.docs.map((doc) => doc.data()));
+      setProducts(
+        querySnapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
+        })
+      );
       setLoading(false);
     };
     getProducts();
@@ -72,25 +75,27 @@ const Shop = () => {
 
     return (
       <Link to={`/products/${product.id}`}>
-        <div className="product" key={product.name}>
-          <h3>{product.name}</h3>
-          <div className="product-image">
+        <div className="card-link" key={product.name}>
+          <div className="card-link-image">
             <img src={product.images[0]} alt={product.name} />
           </div>
-          <p>${product.price}</p>
-          <SizeSelect shown={hasSizes} />
-          <button
-            onClick={() => {
-              handleAddToCart({
-                ...product,
-                id: product.id + selectedSizes[product.name],
-                size: selectedSizes[product.name],
-              });
-              setShown(true);
-            }}
-          >
-            Add to Cart
-          </button>
+          <div className="card-link-text">
+            <h3>{product.name}</h3>
+            <p>${product.price}</p>
+            {/* <SizeSelect shown={hasSizes} />
+            <button
+              onClick={() => {
+                handleAddToCart({
+                  ...product,
+                  id: product.id + selectedSizes[product.name],
+                  size: selectedSizes[product.name],
+                });
+                setShown(true);
+              }}
+            >
+              Add to Cart
+            </button> */}
+          </div>
         </div>
       </Link>
     );
@@ -111,7 +116,7 @@ const Shop = () => {
       <Title title="Shop" />
       <button onClick={() => setShown(!shown)}>View Cart</button>
       <button onClick={handleClearCart}>Clear Cart</button>
-      <Cart />
+
       <div className="shop-container">
         <div className="shop">
           {products.map((product) => (
