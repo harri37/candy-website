@@ -35,14 +35,9 @@ const Home = () => {
         way you walk or talk, Candy is an attitude, it's a way of life. Best
         described as being a kid in a candy store.
       </p>
-      <div className="home-logo">
+      <div id="home-footer-img">
         <img src={watermark} alt="watermark" />
       </div>
-      <h3>
-        Brisbane,
-        <br />
-        Australia
-      </h3>
     </div>
   );
 };

@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import * as data from "../data/sweetTalk.json";
-import { sweetTalkImages } from "../images/images";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const SweetTalkArticle = () => {
-  const articles = data;
-  const { title } = useParams();
-  const article = articles.articles.items.find(
-    (article) => article.title === title
-  );
+  const { id } = useParams();
+  const [article, setArticle] = useState({});
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  const articleArray = article.body.split("*");
+  useEffect(() => {
+    const getArticle = async () => {
+      const docRef = doc(db, "sweetTalk", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setArticle(docSnap.data());
+        console.log("Document data:", docSnap.data());
+      } else {
+        navigate("/sweet-talk");
+      }
+      setLoading(false);
+    };
+
+    getArticle();
+  }, [id, navigate]);
 
   const Question = ({ question }) => {
     return <h4 className="sweetTalkQuesion">{question}</h4>;
@@ -21,13 +35,7 @@ const SweetTalkArticle = () => {
   };
 
   const Image = ({ image }) => {
-    return (
-      <img
-        src={sweetTalkImages[title][image]}
-        alt={image}
-        className="sweetTalkImage"
-      />
-    );
+    return <img src={image} alt=":)" className="sweetTalkImage" />;
   };
 
   const Footer = ({ footer }) => {
@@ -50,21 +58,23 @@ const SweetTalkArticle = () => {
       "December",
     ];
 
-    const dateArray = date.split("-");
-    const year = dateArray[0];
-    const month = months[parseInt(dateArray[1]) - 1];
-    const day = parseInt(dateArray[2].split("T")[0]);
+    const dateObj = new Date(date.seconds * 1000);
+    const month = months[dateObj.getMonth()];
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const year = dateObj.getFullYear();
     return `${month} ${day}, ${year}`;
   };
 
-  return (
+  return loading ? (
+    <p>Loading...</p>
+  ) : (
     <div className="sweetTalkContainer">
       <div className="sweetTalkArticle">
-        <h1 className="sweetTalkTitle">{article.title}</h1>
+        <h1>{article.title}</h1>
         <p className="sweetTalkAuthor">{article.author}</p>
         <p className="sweetTalkDate">{formatDate(article.date)}</p>
         <h2 className="sweetTalkHeader">{article.header}</h2>
-        {articleArray.map((item) => {
+        {article.body.split("*").map((item) => {
           const type = item.charAt(0);
           const content = item.slice(1);
 

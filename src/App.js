@@ -35,7 +35,7 @@ const App = () => {
               <Route path="/login" element={<LogIn />} />
               <Route path="/videos" element={<Videos />} />
               <Route path="/sweetTalk" element={<SweetTalk />} />
-              <Route path="/sweetTalk/:title" element={<SweetTalkArticle />} />
+              <Route path="/sweetTalk/:id" element={<SweetTalkArticle />} />
               <Route
                 path="/dashboard"
                 element={
@@ -70,7 +70,7 @@ const App = () => {
               ></Route>
               <Route path="forgot-password" element={<ForgotPassword />} />
               <Route path="/shop" element={<Shop />} />
-              <Route path="/products/:productId" element={<Product />} />
+              <Route path="/shop/:productId" element={<Product />} />
               <Route path="/events" element={<Events />} />
               <Route path="/access-denied" element={<AccessDenied />} />
               <Route path="/logout" element={<LogOut />} />

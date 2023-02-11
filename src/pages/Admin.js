@@ -6,7 +6,6 @@ import { db } from "../firebase";
 import {
   getDocs,
   collection,
-  setDoc,
   doc,
   deleteDoc,
   addDoc,
@@ -17,7 +16,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
-import Title from "../components/Title";
+import LeftHeading from "../components/LeftHeading";
 
 const Admin = () => {
   const { currentUser } = useAuth();
@@ -345,7 +344,7 @@ const Admin = () => {
     <div>Loading...</div>
   ) : (
     <div className="content-area">
-      <Title title="Admin" />
+      <LeftHeading text="Admin" />
       <Tabs />
       {tabs[selectedTab]}
     </div>

@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Title from "../components/Title";
-import * as data from "../data/sweetTalk.json";
 import { Link } from "react-router-dom";
-import { sweetTalkThumbnails } from "../images/images";
+import { getDocs, collection, query } from "firebase/firestore";
+import { db } from "../firebase";
 
 const SweetTalk = () => {
-  const articles = data;
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const ArticleLink = ({ title, author, date }) => {
+  useEffect(() => {
+    const getArticles = async () => {
+      const q = query(collection(db, "sweetTalk"));
+      const querySnapshot = await getDocs(q);
+      setArticles(
+        querySnapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
+        })
+      );
+      setLoading(false);
+    };
+
+    getArticles();
+  }, []);
+
+  const ArticleLink = ({ title, author, date, thumbnail, id }) => {
     const formatDate = (date) => {
+      const dateObj = new Date(date.seconds * 1000);
+      const dateStr = dateObj.toISOString();
       const months = [
         "January",
         "February",
@@ -24,7 +42,7 @@ const SweetTalk = () => {
         "December",
       ];
 
-      const dateArray = date.split("-");
+      const dateArray = dateStr.split("-");
       const year = dateArray[0];
       const month = months[parseInt(dateArray[1]) - 1];
       const day = parseInt(dateArray[2].split("T")[0]);
@@ -32,14 +50,10 @@ const SweetTalk = () => {
     };
 
     return (
-      <Link to={`/sweetTalk/${title}`}>
+      <Link to={`/sweetTalk/${id}`}>
         <div className="card-link">
           <div className="card-link-image">
-            <img
-              src={sweetTalkThumbnails[title]}
-              alt={title}
-              className="sweettalk_thumb"
-            />
+            <img src={thumbnail} alt={title} className="sweettalk_thumb" />
           </div>
           <div className="card-link-text">
             <h3>{title}</h3>
@@ -51,11 +65,14 @@ const SweetTalk = () => {
     );
   };
 
-  return (
+  console.log("articles", articles);
+  return loading ? (
+    <p>Loading</p>
+  ) : (
     <>
       <Title title="Sweet Talk" />
-      {articles.articles.items.map((article) => (
-        <ArticleLink {...article} key={article.title} />
+      {articles.map((article, index) => (
+        <ArticleLink key={index.toString()} {...article} />
       ))}
     </>
   );

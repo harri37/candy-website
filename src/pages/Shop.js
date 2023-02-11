@@ -74,7 +74,7 @@ const Shop = () => {
     };
 
     return (
-      <Link to={`/products/${product.id}`}>
+      <Link to={`/shop/${product.id}`}>
         <div className="card-link" key={product.name}>
           <div className="card-link-image">
             <img src={product.images[0]} alt={product.name} />

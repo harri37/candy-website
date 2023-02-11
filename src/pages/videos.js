@@ -38,13 +38,13 @@ const Videos = () => {
       <div className="videoContainer">
         <iframe
           title={snippet.title}
-          width="560"
-          height="315"
-          src={`https://www.youtube.com/embed/${id.videoId}`}
+          width="100%"
+          height="100%"
           frameBorder="0"
+          src={`https://www.youtube.com/embed/${id.videoId}`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
-        ></iframe>
+        />
       </div>
     );
   };
@@ -52,14 +52,12 @@ const Videos = () => {
   return loading ? (
     <p>Loading</p>
   ) : (
-    <>
+    <div className="content-area">
       <Title title="Videos" />
-      <div className="videos">
-        {videos.map((video) => (
-          <Video {...video} key={video.id} />
-        ))}
-      </div>
-    </>
+      {videos.map((video, index) => (
+        <Video {...video} key={index.toString()} />
+      ))}
+    </div>
   );
 };
 

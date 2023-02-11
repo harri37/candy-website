@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import OrderList from "../components/OrderList";
+import LeftHeading from "../components/LeftHeading";
 
 const Dashboard = () => {
   const [error, setError] = useState("");
@@ -61,7 +62,7 @@ const Dashboard = () => {
     <p>loading</p>
   ) : (
     <div className="content-area">
-      <Title title="Dashboard" />
+      <LeftHeading text="Dashboard" />
       <div className="dashboard">
         {error && <p>{error}</p>}
         <p>
@@ -80,7 +81,11 @@ const Dashboard = () => {
           <strong>Address:</strong> {userData[0].address}
         </p>
       </div>
-      {orders.length > 0 ? <OrderList orders={orders} /> : <p>No orders</p>}
+      {orders.length > 0 ? (
+        <OrderList orders={orders} alignment="left" />
+      ) : (
+        <p>No orders</p>
+      )}
 
       <button onClick={handleLogout}>Logout</button>
     </div>

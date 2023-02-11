@@ -1,6 +1,7 @@
 import React from "react";
+import LeftHeading from "./LeftHeading";
 
-const OrderList = ({ orders }) => {
+const OrderList = ({ orders, alignment }) => {
   const Order = ({ order }) => {
     console.log(order);
     return (
@@ -29,7 +30,7 @@ const OrderList = ({ orders }) => {
 
   return (
     <>
-      <h2>Orders</h2>
+      {alignment === "left" ? <LeftHeading text="Orders" /> : <h2>Orders</h2>}
       {orders.length > 0 ? (
         orders.map((order) => <Order order={order} key={order.id} />)
       ) : (

@@ -63,15 +63,18 @@ const Product = () => {
         {imageSlides[currentImage]}
         <div className="product-image-select">
           {product.images.map((image, index) => (
-            <input
-              key={index}
-              type="radio"
-              name="product-image"
-              value={index}
-              id={`product-image-${index}`}
-              checked={parseInt(currentImage) === index}
-              onChange={handleImageChange}
-            />
+            <div>
+              <input
+                key={index}
+                type="radio"
+                name="product-image"
+                value={index}
+                id={`product-image-${index}`}
+                checked={parseInt(currentImage) === index}
+                onChange={handleImageChange}
+              />
+              <label htmlFor={`product-image-${index}`}> </label>
+            </div>
           ))}
         </div>
       </div>
