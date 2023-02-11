@@ -532,13 +532,13 @@ header {
 }
 
 .active  {
-  color: var(--palePink);
-  background-color: var(--salmonColor);
+  /* color: var(--palePink); */
+  background-color: var(--lighterPink);
 }
 
-.active a {
+/* .active a {
   color: var(--palePink);
-}
+} */
 
 .active.dropdown-content a {
   color: var(--navTextColor);
@@ -565,14 +565,18 @@ header {
 
 
 
-.active .dropbtn {
+/* .active .dropbtn {
   color: var(--palePink);
-}
+} */
 
 .active .dropbtn:hover {
-  background-color: var(--salmonColor);
+  background-color: var(--lighterPink);
 }
 
+
+.dropbtn:hover {
+  color: var(--paragraphText)
+}
 
 /* Dropdown content (hidden by default) */
 .dropdown-content {
@@ -848,4 +852,25 @@ form label {
   max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
+}
+
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+.footer img {
+  width: 100%;
+  height: auto;
+  max-height: 50px;
 }

@@ -24,5 +24,4 @@ yarn-error.log*
 
 
 .env
-
-/db-images
+ /codes

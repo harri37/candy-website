@@ -18,6 +18,7 @@ import AccessDenied from "./pages/AccessDenied";
 import LogOut from "./pages/LogOut";
 import EditProduct from "./pages/EditProduct";
 import Cart from "./components/Cart";
+import Footer from "./components/Footer";
 import { AuthProvider } from "./helper/AuthContext";
 import { CartProvider } from "./helper/CartContext";
 
@@ -77,6 +78,7 @@ const App = () => {
               <Route path="*" element={<h1>404</h1>} />
             </Routes>
           </main>
+          <Footer />
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>
