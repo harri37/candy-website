@@ -26,6 +26,7 @@ const Admin = () => {
   const [products, setProducts] = useState([]);
   const [creatingProduct, setCreatingProduct] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [message, setMessage] = useState("");
 
   const sizeOrder = {
     "ONE SIZE": 0,
@@ -86,12 +87,14 @@ const Admin = () => {
     const descriptionRef = useRef();
     const [sizesState, setSizesState] = useState(initialSizes);
     const storage = getStorage();
+    const stripeIdRef = useRef();
 
     const handleSubmit = async (e) => {
       //create new product in database
       const name = nameRef.current.value;
       const price = parseInt(priceRef.current.value);
       const description = descriptionRef.current.value;
+      const stripeId = stripeIdRef.current.value;
       setCreatingProduct(true);
       e.preventDefault();
       const firebaseImages = [];
@@ -125,11 +128,13 @@ const Admin = () => {
                   : null;
               })
               .filter((size) => size !== null)
-          : {
-              "ONE SIZE": {
-                quantity: 0,
+          : [
+              {
+                "ONE SIZE": {
+                  quantity: 0,
+                },
               },
-            };
+            ];
 
         sizeObjArr.forEach((size) => {
           Object.assign(sizeObj, size);
@@ -145,21 +150,23 @@ const Admin = () => {
           price: price,
           images: firebaseImages,
           description: description,
-          sizes: sizeObj,
+          selections: { sizes: sizeObj },
           dateCreated: new Date(),
+          active: true,
+          stripeId: stripeId,
         };
         const docRef = await addDoc(collection(db, "products"), newProduct);
         console.log("Document written with ID: ", docRef.id);
+        setMessage("Product created successfully");
       } catch (error) {
         console.error("Error adding document: ", error);
+        setMessage("Error creating product");
       }
 
       setCreatingProduct(false);
+
       //reset form
-      nameRef.current.value = "";
-      priceRef.current.value = "";
       setImages([]);
-      descriptionRef.current.value = "";
       setSizesState(initialSizes);
     };
 
@@ -224,6 +231,13 @@ const Admin = () => {
               id="description"
               ref={descriptionRef}
             />
+            <label htmlFor="stripeId">Stripe ID</label>
+            <input
+              type="text"
+              name="stripeId"
+              id="stripeId"
+              ref={stripeIdRef}
+            />
             <label htmlFor="sizes">Sizes (Leave blank for one size)</label>
             {sizes.map((size) => (
               <div className="size-select-checkbox" key={size}>
@@ -240,6 +254,7 @@ const Admin = () => {
             <button type="submit" disabled={creatingProduct}>
               Create
             </button>
+            <p>{message}</p>
           </form>
         </div>
       </>

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../helper/AuthContext";
 import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import LeftHeading from "../components/LeftHeading";
 
 const EditProduct = () => {
   const { currentUser } = useAuth();
@@ -50,7 +51,7 @@ const EditProduct = () => {
     setUpdating(true);
     const updatedProduct = {
       ...product,
-      sizes: sizeQuantities,
+      selections: { sizes: sizeQuantities },
       name: nameRef.current.value,
       price: parseInt(priceRef.current.value),
       description: descriptionRef.current.value,
@@ -84,8 +85,8 @@ const EditProduct = () => {
         <div>Loading...</div>
       ) : (
         <div className="content-area">
-          <h2>Edit Product</h2>
-          <form className="login-form" onSubmit={handleSubmit}>
+          <LeftHeading text="Edit Product" />
+          <form className="min-form" onSubmit={handleSubmit}>
             <label htmlFor="name">Name</label>
             <input
               type="text"

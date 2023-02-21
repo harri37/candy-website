@@ -17,6 +17,7 @@ const Header = () => {
 
   return (
     <header>
+      <div className="top-border" />
       <div className="header-banner">
         <Link to="/">
           <img src={banner} alt="candy banner" />

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../helper/CartContext";
 
 const Cart = () => {
@@ -12,6 +12,12 @@ const Cart = () => {
     shown,
     setShown,
   } = useCart();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setShown(false);
+  }, [location]);
 
   const handleAddToCart = (product) => {
     addToCart({ ...product, quantity: 1 });

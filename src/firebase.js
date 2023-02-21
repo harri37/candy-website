@@ -18,7 +18,7 @@ export const auth = app.auth();
 export const db = getFirestore(app);
 
 export const stripePayments = getStripePayments(app, {
-  productsCollection: "products",
+  productsCollection: "stripe-products",
   customersCollection: "customers",
 });
 

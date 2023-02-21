@@ -38,8 +38,8 @@ const Videos = () => {
       <div className="videoContainer">
         <iframe
           title={snippet.title}
-          width="100%"
-          height="100%"
+          width="565"
+          height="315"
           frameBorder="0"
           src={`https://www.youtube.com/embed/${id.videoId}`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

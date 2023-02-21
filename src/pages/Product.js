@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { db } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { useCart } from "../helper/CartContext";
+import { useAuth } from "../helper/AuthContext";
+import { createCheckoutSession } from "../stripe/createCheckoutSession";
 
 const Product = () => {
   const { addToCart, setShown, shown } = useCart();
@@ -11,6 +13,10 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState(null);
   const [sizes, setSizes] = useState(null);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [productExists, setProductExists] = useState(true);
+  const [stripeProduct, setStripeProduct] = useState(null);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -20,13 +26,23 @@ const Product = () => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setProduct(docSnap.data());
-        const sizes = Object.keys(docSnap.data().sizes);
+        const sizes = Object.keys(docSnap.data().selections.sizes);
         setSelectedSize(sizes[0]);
         setSizes(
           sizes.sort((a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b))
         );
+
+        const stripeDocRef = doc(
+          db,
+          "stripe-products",
+          docSnap.data().stripeId
+        );
+        const stripeDocSnap = await getDoc(stripeDocRef);
+        if (stripeDocSnap.exists()) {
+          setStripeProduct(stripeDocSnap.data());
+        }
       } else {
-        console.log("No such document!");
+        setProductExists(false);
       }
       setLoading(false);
     };
@@ -39,31 +55,41 @@ const Product = () => {
      * Generates carousel of product images
      * @returns {JSX.Element} Carousel of product images
      */
-    const [currentImage, setCurrentImage] = useState(0);
 
     const handleImageChange = (e) => {
       console.log(e.target.value);
-      setCurrentImage(e.target.value);
+      setCurrentImage(parseInt(e.target.value));
     };
 
-    const ImageSlide = ({ image }) => {
+    const ImageCarousel = () => {
       return (
-        <div className="product-image-carousel-selected">
-          <img src={image} alt={product.name} />
+        <div className="carousel">
+          {product.images.map((image, index) => (
+            <div
+              className={
+                index === currentImage
+                  ? "carousel-item carousel-active"
+                  : "carousel-item"
+              }
+              key={index.toString()}
+            >
+              <img
+                className="carousel-item-image"
+                src={image}
+                alt={product.name}
+              />
+            </div>
+          ))}
         </div>
       );
     };
 
-    const imageSlides = product.images.map((image, index) => (
-      <ImageSlide image={image} key={index} />
-    ));
-
     return (
       <div className="product-images">
-        {imageSlides[currentImage]}
+        <ImageCarousel />
         <div className="product-image-select">
           {product.images.map((image, index) => (
-            <div>
+            <div key={index.toString()}>
               <input
                 key={index}
                 type="radio"
@@ -93,7 +119,7 @@ const Product = () => {
 
   return loading ? (
     <div>Loading...</div>
-  ) : (
+  ) : productExists ? (
     <div className="content-area">
       <h1>{product.name}</h1>
       <ProductImages />
@@ -120,6 +146,8 @@ const Product = () => {
       <button onClick={() => handleAddToCart()}>Add to Cart</button>
       <button onClick={() => setShown(!shown)}>Show Cart</button>
     </div>
+  ) : (
+    <div>Product not found</div>
   );
 };
 

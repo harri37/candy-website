@@ -3,8 +3,12 @@ import { useCart } from "../helper/CartContext";
 import { useAuth } from "../helper/AuthContext";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
+import initializeStripe from "../stripe/initializeStripe";
+import { createCheckoutSession } from "../stripe/createCheckoutSession";
 import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import Title from "../components/Title";
+
+const stripePromise = initializeStripe();
 
 const Checkout = () => {
   const { cart, clearCart } = useCart();
@@ -14,19 +18,9 @@ const Checkout = () => {
   const [message, setMessage] = useState("");
   const [ordering, setOrdering] = useState(false);
 
-  // useEffect(() => {
-  //   //load paypal script
-  //   const loadPaypal = async () => {
-  //     try {
-  //       const paypal = await loadScript({ "client-id": "test" });
-  //       setPayPal(paypal);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   loadPaypal();
-  // }, []);
+  const options = {
+    clientSecret: process.env.REACT_APP_STRIPE_CLIENT_SECRET,
+  };
 
   useEffect(() => {
     const getUserData = async () => {
@@ -58,6 +52,8 @@ const Checkout = () => {
         size: product.size,
         quantity: product.quantity,
         price: product.price,
+        priceId: product.priceId,
+        productId: product.productId,
       })),
       total: cart.reduce(
         (acc, product) => acc + product.price * product.quantity,
@@ -67,10 +63,11 @@ const Checkout = () => {
       date: new Date(),
     };
 
-    console.log(order);
+    console.log("order", order);
     try {
-      addDoc(collection(db, "orders"), order);
-      clearCart();
+      // addDoc(collection(db, "orders"), order);
+      // clearCart();
+      createCheckoutSession(order);
       setMessage("Order placed successfully");
     } catch (error) {
       console.log(error);
@@ -111,7 +108,7 @@ const Checkout = () => {
         ) : (
           <>
             <div id="price">
-              <strong>Total:</strong> $
+              <strong>Total:&nbsp;</strong>$
               {cart.reduce(
                 (acc, product) => acc + product.price * product.quantity,
                 0

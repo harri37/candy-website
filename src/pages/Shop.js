@@ -31,7 +31,9 @@ const Shop = () => {
       //set initial size array
       const initialSizes = {};
       querySnapshot.forEach((doc) => {
-        initialSizes[doc.data().name] = Object.keys(doc.data().sizes)[0];
+        initialSizes[doc.data().name] = Object.keys(
+          doc.data().selections.sizes
+        )[0];
       });
       console.log(initialSizes);
       setSelectedSizes(initialSizes);
@@ -47,10 +49,10 @@ const Shop = () => {
   }, []);
 
   const Product = ({ product }) => {
-    const sizes = Object.keys(product.sizes).sort(
+    const sizes = Object.keys(product.selections.sizes).sort(
       (a, b) => sizeOrder[a] - sizeOrder[b]
     );
-    const hasSizes = !product.sizes.hasOwnProperty("ONE SIZE");
+    const hasSizes = !product.selections.sizes.hasOwnProperty("ONE SIZE");
 
     const handleSizeChange = (e) => {
       setSelectedSizes({ ...selectedSizes, [product.name]: e.target.value });
