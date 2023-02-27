@@ -4,11 +4,14 @@ import { useAuth } from "../helper/AuthContext";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import initializeStripe from "../stripe/initializeStripe";
-import { createCheckoutSession } from "../stripe/createCheckoutSession";
 import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import Title from "../components/Title";
+import { getFunctions, httpsCallable } from "firebase/functions";
+import CheckoutForm from "../components/CheckoutForm";
+import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = initializeStripe();
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const Checkout = () => {
   const { cart, clearCart } = useCart();
@@ -18,8 +21,17 @@ const Checkout = () => {
   const [message, setMessage] = useState("");
   const [ordering, setOrdering] = useState(false);
 
+
+  useEffect(() => {
+    
+
+  const appearance = {
+    theme: "stripe",
+  }
+
   const options = {
     clientSecret: process.env.REACT_APP_STRIPE_CLIENT_SECRET,
+    appearance,
   };
 
   useEffect(() => {
@@ -67,7 +79,8 @@ const Checkout = () => {
     try {
       // addDoc(collection(db, "orders"), order);
       // clearCart();
-      createCheckoutSession(order);
+      httpsCallable(functions, "createCheckoutSession");
+
       setMessage("Order placed successfully");
     } catch (error) {
       console.log(error);
@@ -114,6 +127,7 @@ const Checkout = () => {
                 0
               )}
             </div>
+
             <button onClick={handleCheckout} disabled={ordering}>
               Order
             </button>
