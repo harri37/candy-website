@@ -2,6 +2,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStripePayments } from "@stripe/firestore-stripe-payments";
+import { getFunctions } from "firebase/functions";
 
 const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,6 +17,8 @@ const app = firebase.initializeApp({
 export const auth = app.auth();
 
 export const db = getFirestore(app);
+
+export const functions = getFunctions(app);
 
 export const stripePayments = getStripePayments(app, {
   productsCollection: "stripe-products",

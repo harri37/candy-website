@@ -10,7 +10,6 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import CheckoutForm from "../components/CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 
-
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const Checkout = () => {
@@ -21,13 +20,9 @@ const Checkout = () => {
   const [message, setMessage] = useState("");
   const [ordering, setOrdering] = useState(false);
 
-
-  useEffect(() => {
-    
-
   const appearance = {
     theme: "stripe",
-  }
+  };
 
   const options = {
     clientSecret: process.env.REACT_APP_STRIPE_CLIENT_SECRET,
@@ -79,7 +74,7 @@ const Checkout = () => {
     try {
       // addDoc(collection(db, "orders"), order);
       // clearCart();
-      httpsCallable(functions, "createCheckoutSession");
+      // httpsCallable(functions, "createCheckoutSession");
 
       setMessage("Order placed successfully");
     } catch (error) {

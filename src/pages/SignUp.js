@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../helper/AuthContext";
 import Title from "../components/Title";
 import { useNavigate, Link } from "react-router-dom";
-import { db } from "../firebase";
+import { db, functions } from "../firebase";
 import { doc, setDoc, getDocs, collection } from "firebase/firestore";
 import { auth } from "../firebase";
 
@@ -89,23 +89,19 @@ const SignUp = () => {
   }, [email, updateErrors, removeError]);
 
   useEffect(() => {
-    users.forEach((user) => {
-      if (user.email === email) {
-        return updateErrors("Email already in use");
-      } else {
-        removeError("Email already in use");
-      }
-    });
+    if (users.some((user) => user.email === email)) {
+      return updateErrors("Email already in use");
+    } else {
+      removeError("Email already in use");
+    }
   }, [email, users, updateErrors, removeError]);
 
   useEffect(() => {
-    users.forEach((user) => {
-      if (user.phone === phone) {
-        updateErrors("Phone number already in use");
-      } else {
-        removeError("Phone number already in use");
-      }
-    });
+    if (users.some((user) => user.phone === phone)) {
+      return updateErrors("Phone number already in use");
+    } else {
+      removeError("Phone number already in use");
+    }
   }, [phone, users, updateErrors, removeError]);
 
   const handleSubmit = async (e) => {
@@ -119,6 +115,12 @@ const SignUp = () => {
 
     try {
       setLoading(true);
+
+      //get stripe customer id
+      // const createStripeCustomer = functions.httpsCallable("createCustomer");
+      // const customer = await createStripeCustomer({ email: email });
+      // console.log("customer", customer);
+
       await signup(email, password);
       //get user id
       const user = auth.currentUser.multiFactor.user.uid;
@@ -132,7 +134,13 @@ const SignUp = () => {
         phone: phone,
         address: address,
       });
-      navigate("/");
+
+      //create stripe customer
+      await setDoc(doc(db, "customers", user), {
+        email: email,
+      });
+
+      //navigate("/");
     } catch (e) {
       console.log(e);
       //setError("Failed to create an account");
