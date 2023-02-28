@@ -17,7 +17,7 @@ const Cart = () => {
 
   useEffect(() => {
     setShown(false);
-  }, [location]);
+  }, [location, setShown]);
 
   const handleAddToCart = (product) => {
     addToCart({ ...product, quantity: 1 });

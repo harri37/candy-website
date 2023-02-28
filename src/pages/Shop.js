@@ -52,28 +52,28 @@ const Shop = () => {
     const sizes = Object.keys(product.selections.sizes).sort(
       (a, b) => sizeOrder[a] - sizeOrder[b]
     );
-    const hasSizes = !product.selections.sizes.hasOwnProperty("ONE SIZE");
+    // const hasSizes = !product.selections.sizes.hasOwnProperty("ONE SIZE");
 
     const handleSizeChange = (e) => {
       setSelectedSizes({ ...selectedSizes, [product.name]: e.target.value });
     };
 
-    const SizeSelect = ({ shown }) => {
-      return (
-        shown && (
-          <select
-            onChange={handleSizeChange}
-            value={selectedSizes[product.name]}
-          >
-            {sizes.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        )
-      );
-    };
+    // const SizeSelect = ({ shown }) => {
+    //   return (
+    //     shown && (
+    //       <select
+    //         onChange={handleSizeChange}
+    //         value={selectedSizes[product.name]}
+    //       >
+    //         {sizes.map((size) => (
+    //           <option key={size} value={size}>
+    //             {size}
+    //           </option>
+    //         ))}
+    //       </select>
+    //     )
+    //   );
+    // };
 
     return (
       <Link to={`/shop/${product.id}`}>

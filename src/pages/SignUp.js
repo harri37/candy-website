@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../helper/AuthContext";
 import Title from "../components/Title";
-import { useNavigate, Link } from "react-router-dom";
-import { db, functions } from "../firebase";
+import { Link } from "react-router-dom";
+import { db } from "../firebase";
 import { doc, setDoc, getDocs, collection } from "firebase/firestore";
 import { auth } from "../firebase";
 
@@ -19,7 +19,6 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const { signup } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("fetch loop");

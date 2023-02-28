@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import { db } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { useCart } from "../helper/CartContext";
-import { useAuth } from "../helper/AuthContext";
-import { createCheckoutSession } from "../stripe/createCheckoutSession";
 
 const Product = () => {
   const { addToCart, setShown, shown } = useCart();
@@ -16,7 +14,6 @@ const Product = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [productExists, setProductExists] = useState(true);
   const [stripeProduct, setStripeProduct] = useState(null);
-  const { currentUser } = useAuth();
 
   useEffect(() => {
     const getProduct = async () => {

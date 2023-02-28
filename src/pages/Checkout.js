@@ -3,7 +3,6 @@ import { useCart } from "../helper/CartContext";
 import { useAuth } from "../helper/AuthContext";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
-import initializeStripe from "../stripe/initializeStripe";
 import {
   doc,
   addDoc,
@@ -12,10 +11,9 @@ import {
   where,
   getDocs,
   onSnapshot,
+  setDoc,
 } from "firebase/firestore";
 import Title from "../components/Title";
-import { getFunctions, httpsCallable } from "firebase/functions";
-import CheckoutForm from "../components/CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -80,8 +78,6 @@ const Checkout = () => {
 
     console.log("order", order);
     try {
-      // httpsCallable(functions, "createCheckoutSession");
-
       const docRef = doc(db, "customers", currentUser.uid);
       const colRef = collection(docRef, "checkout_sessions");
       const checkOutSessionRef = await addDoc(colRef, {
@@ -94,25 +90,32 @@ const Checkout = () => {
         cancel_url: window.location.origin,
       });
 
-      onSnapshot(checkOutSessionRef, (snap) => {
-        const { error, sessionId } = snap.data();
-        if (error) {
-          console.log(error);1
-        }
-        if (sessionId) {
-          stripePromise.then((stripe) => {
-            stripe.redirectToCheckout({ sessionId });
-          });
-        }
-      });
-
       addDoc(collection(db, "orders"), order);
       clearCart();
 
-      setMessage("Order placed successfully");
+      const unsubscribe = onSnapshot(checkOutSessionRef, (snap) => {
+        const { error, sessionId } = snap.data();
+        if (error) {
+          console.log(error);
+        }
+        if (sessionId) {
+          stripePromise.then((stripe) => {
+            stripe.redirectToCheckout({ sessionId }).then((result) => {
+              // Handle result.error if necessary
+              if (!result.complete) {
+                console.log("Payment not completed yet");
+              } else {
+                // Payment completed, add order to database
+                unsubscribe();
+
+                setMessage("Order placed successfully");
+              }
+            });
+          });
+        }
+      });
     } catch (error) {
       console.log(error);
-      setMessage("Error placing order");
     }
     setOrdering(false);
   };
@@ -155,7 +158,6 @@ const Checkout = () => {
                 0
               )}
             </div>
-
             <button onClick={handleCheckout} disabled={ordering}>
               Order
             </button>
