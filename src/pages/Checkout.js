@@ -4,7 +4,15 @@ import { useAuth } from "../helper/AuthContext";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import initializeStripe from "../stripe/initializeStripe";
-import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import {
+  doc,
+  addDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 import Title from "../components/Title";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import CheckoutForm from "../components/CheckoutForm";
@@ -47,7 +55,7 @@ const Checkout = () => {
     getUserData();
   }, [currentUser.email]);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     setOrdering(true);
 
     const order = {
@@ -72,9 +80,34 @@ const Checkout = () => {
 
     console.log("order", order);
     try {
-      // addDoc(collection(db, "orders"), order);
-      // clearCart();
       // httpsCallable(functions, "createCheckoutSession");
+
+      const docRef = doc(db, "customers", currentUser.uid);
+      const colRef = collection(docRef, "checkout_sessions");
+      const checkOutSessionRef = await addDoc(colRef, {
+        line_items: cart.map((product) => ({
+          price: product.priceId,
+          quantity: product.quantity,
+        })),
+        mode: "payment",
+        success_url: window.location.origin,
+        cancel_url: window.location.origin,
+      });
+
+      onSnapshot(checkOutSessionRef, (snap) => {
+        const { error, sessionId } = snap.data();
+        if (error) {
+          console.log(error);1
+        }
+        if (sessionId) {
+          stripePromise.then((stripe) => {
+            stripe.redirectToCheckout({ sessionId });
+          });
+        }
+      });
+
+      addDoc(collection(db, "orders"), order);
+      clearCart();
 
       setMessage("Order placed successfully");
     } catch (error) {
